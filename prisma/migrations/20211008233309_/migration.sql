@@ -1,0 +1,14 @@
+/*
+  Warnings:
+
+  - You are about to drop the column `birth` on the `user` table. All the data in the column will be lost.
+  - You are about to drop the column `password` on the `user` table. All the data in the column will be lost.
+  - Added the required column `nascimento` to the `User` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `senha` to the `User` table without a default value. This is not possible if the table is not empty.
+
+*/
+-- AlterTable
+ALTER TABLE `user` DROP COLUMN `birth`,
+    DROP COLUMN `password`,
+    ADD COLUMN `nascimento` VARCHAR(191) NOT NULL,
+    ADD COLUMN `senha` VARCHAR(191) NOT NULL;
