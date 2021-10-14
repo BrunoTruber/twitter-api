@@ -22,7 +22,7 @@ import {
   
     @UseGuards(AuthGuard('jwt'))
     @UsePipes(ValidationPipe)
-    @Post('likes')
+    @Post('create')
     async createLike(@Body() like: CreateLikeDto, @Req() req): Promise<Like> {
       const user = req.user.id;
       return this.likeService.postlike(like, user);
