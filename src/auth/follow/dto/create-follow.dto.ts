@@ -1,13 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { IsNumber } from 'class-validator';
+import { IsOptional } from 'class-validator';
 
 export class CreateFollowDto {
-    @IsNumber()
-    User: number;
+    // @IsOptional()
+    // User: number;
 
-    @IsNumber()
+    @IsOptional()
     userId: number;
 
-    @IsNumber()
+    @IsOptional()
     followedId: number;
 }
