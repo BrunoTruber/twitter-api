@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Get, Post, Put, Param, UseGuards, UsePipes, ValidationPipe, Delete, ParseIntPipe} from '@nestjs/common';
-import { User, Prisma } from '.prisma/client';
+import { User } from '.prisma/client';
 import { CreateUsersDto } from './users.dto';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -12,7 +12,7 @@ export class UsersController {
   constructor(private service: UsersService) {}
   
   @Post('/create-account')
-  create(@Body() data: Prisma.UserCreateInput): Promise<User> {
+  create(@Body() data: CreateUsersDto): Promise<User> {
     return this.service.create(data);
   }
 

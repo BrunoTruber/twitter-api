@@ -5,7 +5,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import { Tweet, Prisma } from '@prisma/client';
+import { Tweet } from '@prisma/client';
 import { CreateTweetDto } from './dto/create-tweets.dto';
 
 
@@ -33,7 +33,11 @@ export class TweetsService {
   }
 
   async findOneTweet(id: number): Promise<Tweet> {
-    const tweet = await this.db.tweet.findUnique({ where: { id } });
+    const tweet = await this.db.tweet.findUnique({ 
+      where: { 
+        id 
+      }
+    });
 
     if (!tweet) {
       throw new NotFoundException('no tweet found with this id');
@@ -42,7 +46,7 @@ export class TweetsService {
     return tweet;
   }
 
-  post(data: Prisma.TweetCreateInput): Promise<Tweet> {
+  postTweet(data: CreateTweetDto): Promise<Tweet> {
     return this.db.tweet.create({data: data} );
   }
 

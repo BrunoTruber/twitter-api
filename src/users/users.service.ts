@@ -5,7 +5,7 @@ import {
   ConflictException,
   UnauthorizedException
 } from '@nestjs/common';
-import { User, Prisma } from '@prisma/client';
+import { User } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
 import * as bcrypt from 'bcrypt';
 import { CreateUsersDto} from 'src/users/users.dto';
@@ -30,7 +30,7 @@ export class UsersService {
     return user;
   }
 
-  async create(data: Prisma.UserCreateInput): Promise<User> {
+  async create(data: CreateUsersDto): Promise<User> {
     const existing = await this.db.user.findUnique({
       where: { username: data.username },
     });
@@ -41,11 +41,21 @@ export class UsersService {
 
     const hashedPassword = await bcrypt.hash(data.senha, 10);
 
+    const tweets = data.tweets.map((tweet) => ({
+      id: tweet,
+    }))
+
     const user = await this.db.user.create({
       data: {
         ...data,
         senha: hashedPassword,
+        tweets: {
+          connect: tweets,
+        },
       },
+      include: {
+        tweets: true
+      }
     });
 
     return user;

@@ -13,7 +13,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { Tweet, Prisma } from '@prisma/client';
+import { Tweet } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';
 import AuthUser from 'src/common/decorators/auth-user.decorator';
 import { CreateTweetDto } from 'src/auth/tweets/dto/create-tweets.dto';
@@ -38,8 +38,8 @@ export class TweetsController {
 
   @Post('/create')
   @UsePipes(ValidationPipe)
-  post(@AuthUser()@Body() data: Prisma.TweetCreateInput): Promise<Tweet> {
-    return this.service.post(data);
+  post(@AuthUser()@Body() data: CreateTweetDto): Promise<Tweet> {
+    return this.service.postTweet(data);
   }
 
   @Delete('delete/:id')
