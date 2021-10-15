@@ -4,6 +4,7 @@ import { User, Prisma } from '.prisma/client';
 import { CreateUsersDto } from './users.dto';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
+import AuthUser from '../common/decorators/auth-user.decorator';
 
 
 @Controller('users')
@@ -23,21 +24,21 @@ export class UsersController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get(':id')
-  findUnique(@Param('id') id: number): Promise<User> {
+  findUnique(@AuthUser()@Param('id') id: number): Promise<User> {
     return this.service.findUnique(id);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Delete('/delete/:id')
   @UsePipes(ValidationPipe)
-  async delete(@Param('id') id: number) {
+  async delete(@AuthUser()@Param('id') id: number) {
     return this.service.deleteOneUser(id);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Put('/update/:id')
   @UsePipes(ValidationPipe)
-  async update(@Body() updateUser: CreateUsersDto, @Param('id', ParseIntPipe) id: number,): Promise<User> {
+  async update(@AuthUser()@Body() updateUser: CreateUsersDto, @Param('id', ParseIntPipe) id: number,): Promise<User> {
     return this.service.updateOneUser( id, updateUser );
   }
 }

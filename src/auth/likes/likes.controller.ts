@@ -15,6 +15,7 @@ import {
   import { LikesService } from './likes.service';
   import { Like } from '.prisma/client';
   import { AuthGuard } from '@nestjs/passport';
+  import AuthUser from 'src/common/decorators/auth-user.decorator';
   
   @Controller('likes')
   export class LikesController {
@@ -23,7 +24,7 @@ import {
     @UseGuards(AuthGuard('jwt'))
     @UsePipes(ValidationPipe)
     @Post('create')
-    async createLike(@Body() like: CreateLikeDto, @Req() req): Promise<Like> {
+    async createLike(@AuthUser()@Body() like: CreateLikeDto, @Req() req): Promise<Like> {
       const user = req.user.id;
       return this.likeService.postlike(like, user);
     }
@@ -31,7 +32,7 @@ import {
     @UseGuards(AuthGuard('jwt'))
     @UsePipes(ValidationPipe)
     @Delete('delete/:id')
-    async deletelike(@Param('id', ParseIntPipe) id: number,@Req() req,): Promise<Like> {
+    async deletelike(@AuthUser()@Param('id', ParseIntPipe) id: number,@Req() req,): Promise<Like> {
       const user = req.user.id;
   
       return this.likeService.deslike(id, user);

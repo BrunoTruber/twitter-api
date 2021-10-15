@@ -15,6 +15,7 @@ import {
   import { CreateFollowDto } from 'src/auth/follow/dto/create-follow.dto';
   import { FollowService } from 'src/auth/follow/follow.service';
   import { Follow } from '.prisma/client';
+  import AuthUser from 'src/common/decorators/auth-user.decorator';
   
   @Controller('follow')
   export class FollowController {
@@ -23,7 +24,7 @@ import {
     @UseGuards(AuthGuard('jwt'))
     @UsePipes(ValidationPipe)
     @Post('follow')
-    async create(@Body() data: CreateFollowDto, @Req() req): Promise<Follow> {
+    async create(@AuthUser()@Body() data: CreateFollowDto, @Req() req): Promise<Follow> {
       const user = req.user.id;
       return this.followService.follow(data, user);
     }
@@ -31,7 +32,7 @@ import {
     @UseGuards(AuthGuard('jwt'))
     @UsePipes(ValidationPipe)
     @Delete('delete/:id')
-    async deletefollow(@Param('id', ParseIntPipe) id: number, @Req() req,): Promise<Follow> {
+    async deletefollow(@AuthUser()@Param('id', ParseIntPipe) id: number, @Req() req,): Promise<Follow> {
       const followId = req.user.id;
       return this.followService.deletefollow(id, followId);
     }
