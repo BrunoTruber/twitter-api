@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
   ConflictException,
+  UnauthorizedException
 } from '@nestjs/common';
 import { User, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
@@ -62,7 +63,24 @@ export class UsersService {
     });
   }
 
-  async deleteOneUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
-    return this.db.user.delete({ where });
+  async deleteOneUser(id: number): Promise<User> {
+    const delUser = await this.db.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!delUser) {
+      throw new NotFoundException();
+    }
+
+    if (delUser.id !== id) {
+      throw new UnauthorizedException();
+    }
+
+    return this.db.user.delete({
+      where: { id },
+    });
   }
 }

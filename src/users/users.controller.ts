@@ -21,18 +21,20 @@ export class UsersController {
     return this.service.findMany()
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   findUnique(@Param('id') id: number): Promise<User> {
     return this.service.findUnique(id);
   }
 
-
+  @UseGuards(AuthGuard('jwt'))
   @Delete('/delete/:id')
   @UsePipes(ValidationPipe)
   async delete(@Param('id') id: number) {
-    return this.service.deleteOneUser({ id: Number(id) });
+    return this.service.deleteOneUser(id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Put('/update/:id')
   @UsePipes(ValidationPipe)
   async update(@Body() updateUser: CreateUsersDto, @Param('id', ParseIntPipe) id: number,): Promise<User> {
