@@ -7,6 +7,7 @@ import {
 import { PrismaService } from '../../prisma.service';
 import {  Tweet } from '.prisma/client';
 import { CreateTweetDto } from './dto/create-tweets.dto';
+import { UpdateTweetDto} from './dto/update-tweets.dto';
 
 
 @Injectable()
@@ -61,13 +62,13 @@ export class TweetsService {
           connect: user
         }
       },
-      // include: {
-      //   userId: true,
-      // }
+      include: {
+        userId: true,
+      }
     });
   }
 
-  async update(id: number, tweet: CreateTweetDto) {
+  async update(id: number, tweet: UpdateTweetDto) {
     return await this.db.tweet.update({
       data: {
         ...tweet,
