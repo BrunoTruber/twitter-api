@@ -5,7 +5,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import {  Tweet } from '.prisma/client';
+import { Tweet } from '.prisma/client';
 import { CreateTweetDto } from './dto/create-tweets.dto';
 import { UpdateTweetDto} from './dto/update-tweets.dto';
 
@@ -49,9 +49,9 @@ export class TweetsService {
 
   postTweet(tweet: CreateTweetDto) {
 
-    const user = tweet.userId?.map((userId) => ({
+    const user = tweet.userId.map(((userId) => ({
       id: userId,
-    }))
+    })))
 
     return this.db.tweet.create({
       data: {
@@ -68,7 +68,7 @@ export class TweetsService {
     });
   }
 
-  async update(id: number, tweet: UpdateTweetDto) {
+  async update(id: number, tweet: UpdateTweetDto): Promise<Tweet> {
     return await this.db.tweet.update({
       data: {
         ...tweet,

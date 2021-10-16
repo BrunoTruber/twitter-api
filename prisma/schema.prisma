@@ -38,7 +38,7 @@ model Tweet {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   User      User?    @relation(fields: [userId], references: [id])
-  userId    Int?
+  userId    Int
   likes     Like[]
   text      String
 }
