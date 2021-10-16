@@ -5,13 +5,13 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import { Tweet } from '@prisma/client';
+import {  Tweet } from '.prisma/client';
 import { CreateTweetDto } from './dto/create-tweets.dto';
 
 
 @Injectable()
 export class TweetsService {
-  constructor(private db: PrismaService) {}
+  constructor(private  db: PrismaService) {}
 
   async find(username?: string): Promise<Tweet[]> {
     if (username) {
@@ -46,12 +46,29 @@ export class TweetsService {
     return tweet;
   }
 
-  postTweet(data: CreateTweetDto): Promise<Tweet> {
-    return this.db.tweet.create({data: data} );
+  postTweet(tweet: CreateTweetDto) {
+
+    const user = tweet.userId?.map((userId) => ({
+      id: userId,
+    }))
+
+    return this.db.tweet.create({
+      data: {
+        text: tweet.text,
+        createdAt: tweet.createdAt,
+        updatedAt: tweet.updatedAt,
+        userId: {
+          connect: user
+        }
+      },
+      // include: {
+      //   userId: true,
+      // }
+    });
   }
 
-  async update(id: number, tweet: CreateTweetDto){
-    return this.db.tweet.update({
+  async update(id: number, tweet: CreateTweetDto) {
+    return await this.db.tweet.update({
       data: {
         ...tweet,
         id: undefined,

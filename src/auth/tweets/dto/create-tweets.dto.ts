@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { IsString, Length, IsOptional } from 'class-validator';
+import { IsString, Length, IsOptional, IsNumber } from 'class-validator';
 
 export class CreateTweetDto {
+
   @IsString()
   @Length(1, 140)
   text: string;
@@ -11,4 +12,8 @@ export class CreateTweetDto {
 
   @IsOptional()
   updatedAt: string;
+
+  @IsOptional()
+  @IsNumber()
+  userId: number[];
 }

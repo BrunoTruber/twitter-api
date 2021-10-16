@@ -39,13 +39,13 @@ export class TweetsController {
   @Post('/create')
   @UsePipes(ValidationPipe)
   post(@AuthUser()@Body() data: CreateTweetDto): Promise<Tweet> {
-    return this.service.postTweet(data);
+    return this.service.postTweet( data );
   }
 
   @Delete('delete/:id')
   @UsePipes(ValidationPipe)
   delete(@AuthUser()@Param('id') id: number): Promise<void> {
-    return this.service.delete( id);
+    return this.service.delete(id);
   }
 
   @Put('/update/:id')
