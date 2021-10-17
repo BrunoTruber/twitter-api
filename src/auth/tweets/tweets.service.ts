@@ -25,6 +25,7 @@ export class TweetsService {
       }
     }
 
+    
     const tweets = await this.db.tweet.findMany({
       where: {  },
       orderBy: { createdAt: 'desc' },
