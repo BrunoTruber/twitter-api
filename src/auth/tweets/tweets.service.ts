@@ -55,12 +55,12 @@ export class TweetsService {
   }
 
 
-  // async postTweet(req: Request, createTweetDto: CreateTweetDto) {
-  //   return await this.tweetRepository.save({
-  //     ...createTweetDto,
-  //     users: req.user,
-  //   });
-  // }
+  async postTweet(req: Request, createTweetDto: CreateTweetDto) {
+    return await this.tweetRepository.save({
+      ...createTweetDto,
+      users: req.user,
+    });
+  }
   // postTweet(tweet: CreateTweetDto): Promise<Tweet> {
   //   return this.tweetRepository.save(tweet)
 
