@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsString, Length, IsOptional, IsNumber } from 'class-validator';
+import { IsString, Length, IsOptional, IsNumber} from 'class-validator';
 
 export class UpdateTweetDto {
   @IsNumber()

@@ -13,6 +13,6 @@ export class CreateTweetDto {
   @IsOptional()
   updatedAt: string;
 
-  @IsOptional()
-  userId: number[];
+  // @IsOptional()
+  // userId: number[];
 }

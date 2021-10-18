@@ -8,11 +8,17 @@ import { PrismaService } from '../../prisma.service';
 import { Tweet } from '.prisma/client';
 import { CreateTweetDto } from './dto/create-tweets.dto';
 import { UpdateTweetDto} from './dto/update-tweets.dto';
+import { Repository } from 'typeorm'
+import { InjectRepository } from '@nestjs/typeorm';
+import { Request } from 'express';
+
 
 
 @Injectable()
 export class TweetsService {
-  constructor(private  db: PrismaService) {}
+  constructor(private  db: PrismaService,
+  @InjectRepository(UpdateTweetDto)
+  private readonly tweetRepository: Repository<Tweet>) {}
 
   async find(username?: string): Promise<Tweet[]> {
     if (username) {
@@ -48,28 +54,36 @@ export class TweetsService {
     return tweet;
   }
 
-  postTweet(tweet: CreateTweetDto) {
 
-    const user = tweet.userId.map(((userId) => ({
-      id: userId,
-    })))
+  // async postTweet(req: Request, createTweetDto: CreateTweetDto) {
+  //   return await this.tweetRepository.save({
+  //     ...createTweetDto,
+  //     users: req.user,
+  //   });
+  // }
+  // postTweet(tweet: CreateTweetDto): Promise<Tweet> {
+  //   return this.tweetRepository.save(tweet)
 
-    return this.db.tweet.create({
-      data: {
-        text: tweet.text,
-        createdAt: tweet.createdAt,
-        updatedAt: tweet.updatedAt,
-        userId: {
-          connect: user
-        }
-      },
-      include: {
-        userId: true,
-      }
-    });
-  }
+    // const user = tweet.userId.map(((userId) => ({
+    //   id: userId,
+    // })))
 
-  async update(id: number, tweet: UpdateTweetDto): Promise<Tweet> {
+    // return this.db.tweet.create({
+    //   data: {
+    //     text: tweet.text,
+    //     createdAt: tweet.createdAt,
+    //     updatedAt: tweet.updatedAt,
+    //     userId: {
+    //       connect: user
+    //     }
+    //   },
+    //   include: {
+    //     userId: true,
+    //   }
+    // });
+  //}
+
+  async update(id: number, tweet: CreateTweetDto): Promise<Tweet> {
     return await this.db.tweet.update({
       data: {
         ...tweet,
