@@ -7,7 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { FollowModule } from './auth/follow/follow.module';
 import { LikesModule } from './auth/likes/likes.module';
 import { TweetsModule } from './auth/tweets/tweets.module';
-import {TypeOrmModule} from '@nestjs/typeorm';
+//import {TypeOrmModule} from '@nestjs/typeorm';
 
 @Module({
   imports: [TypeOrmModule.forRoot(),UsersModule, AuthModule, FollowModule, LikesModule, TweetsModule],
